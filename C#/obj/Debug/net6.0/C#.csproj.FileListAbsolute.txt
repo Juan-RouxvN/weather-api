@@ -25,3 +25,4 @@ D:\Belgium\Year 4\DST - Projects\weather-api\C#\obj\Debug\net6.0\refint\C#.dll
 D:\Belgium\Year 4\DST - Projects\weather-api\C#\obj\Debug\net6.0\C#.pdb
 D:\Belgium\Year 4\DST - Projects\weather-api\C#\obj\Debug\net6.0\C#.genruntimeconfig.cache
 D:\Belgium\Year 4\DST - Projects\weather-api\C#\obj\Debug\net6.0\ref\C#.dll
+D:\Belgium\Year 4\DST - Projects\weather-api\C#\bin\Debug\net6.0\Newtonsoft.Json.dll

@@ -1,10 +1,9 @@
 const weatherService = require('../services');
 
-exports.getWeather = (req, res) => {
+exports.getWeather = async (req, res) => {
     const { latitude, longitude } = req.body;
 
-    // Use latitude and longitude to make API call to Open Weather or any weather service.
-    // Example: const weatherData = await WeatherApiService.getWeatherData(latitude, longitude);
-    // Process weatherData and return appropriate response.
-    res.send('Weather Information'); // Placeholder response
+    const response = await weatherService.getWeatherData(latitude, longitude);
+
+    res.send(response);
 };

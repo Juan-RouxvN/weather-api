@@ -1,30 +1,35 @@
-namespace WeatherService;
+namespace WeatherAPI.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using System.Threading.Tasks;
+using WeatherAPI.Services;
 
 [ApiController]
 [Route("api/weather")]
 public class WeatherController : ControllerBase
 {
-    // private readonly IHttpClientFactory _httpClientFactory;
+    private readonly WeatherService weatherService;
 
-    // public WeatherController(IHttpClientFactory httpClientFactory)
-    // {
-    //     _httpClientFactory = httpClientFactory;
-    // }
+    public WeatherController(WeatherService service)
+    {
+        weatherService = service;
+    }
 
     [HttpPost]
-    public async Task<IActionResult> GetWeather()
+    public async Task<IActionResult> GetWeather([FromBody] Coordinates coordinates)
     {
-        // using var client = _httpClientFactory.CreateClient();
-
-        // Use coordinates.Latitude and coordinates.Longitude to make API call to Open Weather or any weather service.
-        // Example: var response = await client.GetAsync($"API_URL_WITH_COORDINATES");
-        // Process weather response and return appropriate information.
-        return Ok("Weather Information"); // Placeholder response
+        try
+        {
+            var weatherData = await weatherService.GetWeatherDataAsync(coordinates.latitude, coordinates.longitude);
+            return Ok(weatherData);
+        }
+        catch (Exception ex)
+        {
+            // Log the error
+            return StatusCode(500, "Error fetching weather data");
+        }
     }
 }
 
-public record Coordinates(double Latitude, double Longitude);
+public record Coordinates(double latitude, double longitude);
