@@ -25,18 +25,18 @@ node_modules
 *.iml
 
 # Gradle
-.gradle/
-build/
+.gradle/*
+build/*
 
 # Maven
-target/
+target/*
 pom.xml.tag
 release.properties
 checkstyle-cachefile
 
 # C#
-bin/
-obj/
+bin/*
+obj/*
 *.suo
 *.user
 *.sln.docstates
@@ -74,3 +74,10 @@ $RECYCLE.BIN/
 *.userosscache
 *.suo
 *.suo.ide
+
+# package directories
+node_modules
+jspm_packages
+
+# Serverless directories
+.serverless
