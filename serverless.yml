@@ -1,0 +1,24 @@
+service: weather-api
+# app and org for use with dashboard.serverless.com
+#app: your-app-name
+#org: your-org-name
+
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  memorySize: 128
+  region: eu-west-1
+
+functions:
+  main:
+    handler: handler.main
+    events:
+     - http: ANY /{proxy+}
+     - http: ANY /
+    environment:
+      API_URL: https://api.openweathermap.org/data/2.5/weather
+      API_KEY: 8d1676aa6fc9d8999047e94223b592e3
