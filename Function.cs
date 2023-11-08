@@ -16,7 +16,7 @@ public class Function : IHttpFunction
         try
         {
             HttpRequest request = context.Request;
-            if (request.Method == "POST")
+            if (request.Method == HttpMethods.Post)
             {
                 using StreamReader reader = new StreamReader(request.Body);
                 string requestBody = await reader.ReadToEndAsync();
