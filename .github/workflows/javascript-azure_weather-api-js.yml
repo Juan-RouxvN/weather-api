@@ -40,3 +40,4 @@ jobs:
           slot-name: 'Production'
           package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D98F8B8618F9484E91CDFE445C2A829A }}
+          ENABLE_ORYX_BUILD: true
