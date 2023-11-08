@@ -23,7 +23,7 @@ public class WeatherService
         HttpResponseMessage response = await _httpClient.GetAsync(apiUrl);
 
         string jsonResponse = await response.Content.ReadAsStringAsync();
-        var weatherData = JsonConvert .DeserializeObject<WeatherData>(jsonResponse);
+        var weatherData = JsonConvert.DeserializeObject<WeatherData>(jsonResponse);
         return weatherData ?? null;
     }
 }

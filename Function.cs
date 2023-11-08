@@ -3,6 +3,7 @@ namespace WeatherAPI;
 using Google.Cloud.Functions.Framework;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.IO;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -17,7 +18,10 @@ public class Function : IHttpFunction
             HttpRequest request = context.Request;
             if (request.Method == "POST")
             {
-                var coordinates = JsonSerializer.Deserialize<Coordinates>(request.Body);
+                using StreamReader reader = new StreamReader(request.Body);
+                string requestBody = await reader.ReadToEndAsync();
+
+                var coordinates = JsonSerializer.Deserialize<Coordinates>(requestBody);
                 var weatherService = new WeatherService(new HttpClient());
                 var weatherData = await weatherService.GetWeatherDataAsync(coordinates.latitude, coordinates.longitude);
                 await context.Response.WriteAsJsonAsync(weatherData);
