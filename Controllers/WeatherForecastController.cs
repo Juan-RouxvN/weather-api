@@ -1,13 +1,18 @@
 namespace WeatherAPI.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.WebJobs;
 using System.Net.Http;
 using System.Threading.Tasks;
 using WeatherAPI.Services;
+using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using System.Text.Json;
+using System;
+using System.Web.Http;
 
-[ApiController]
-[Route("api/weather")]
-public class WeatherController : ControllerBase
+public class WeatherController
 {
     private readonly WeatherService weatherService;
 
@@ -16,18 +21,28 @@ public class WeatherController : ControllerBase
         weatherService = service;
     }
 
-    [HttpPost]
-    public async Task<IActionResult> GetWeather([FromBody] Coordinates coordinates)
+    [FunctionName("WeatherController")]
+    public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "weather")] HttpRequest req)
     {
         try
         {
-            var weatherData = await weatherService.GetWeatherDataAsync(coordinates.latitude, coordinates.longitude);
-            return Ok(weatherData);
+            if (req.Method == HttpMethods.Post)
+            {
+                using StreamReader reader = new StreamReader(req.Body);
+                string requestBody = await reader.ReadToEndAsync();
+
+                var coordinates = JsonSerializer.Deserialize<Coordinates>(requestBody);
+                var weatherData = await weatherService.GetWeatherDataAsync(coordinates.latitude, coordinates.longitude);
+
+                return new OkObjectResult(weatherData);
+            }
+
+            return new OkObjectResult("Unsupported Method");
         }
         catch (Exception ex)
         {
             // Log the error
-            return StatusCode(500, "Error fetching weather data");
+            return new InternalServerErrorResult();
         }
     }
 }

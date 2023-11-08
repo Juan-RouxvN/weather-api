@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 public class Coord
 {
     public double Lon { get; set; }
