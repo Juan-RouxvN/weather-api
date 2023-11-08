@@ -16,6 +16,20 @@ public class WeatherController : ControllerBase
         weatherService = service;
     }
 
+    [HttpGet]
+    public async Task<IActionResult> Index()
+    {
+        try
+        {
+            return Ok("Hello from online");
+        }
+        catch (Exception ex)
+        {
+            // Log the error
+            return StatusCode(500, "Error fetching weather data");
+        }
+    }
+
     [HttpPost]
     public async Task<IActionResult> GetWeather([FromBody] Coordinates coordinates)
     {
