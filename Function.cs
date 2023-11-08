@@ -27,7 +27,7 @@ public class Function : IHttpFunction
         catch (Exception ex)
         {
             // Log the error
-            await context.Response.WriteAsync("Error fetching weather data");
+            await context.Response.WriteAsync("Error fetching weather data: " + ex.Message);
         }
     }
 
