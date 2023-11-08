@@ -22,7 +22,7 @@ public class WeatherController
     }
 
     [FunctionName("WeatherController")]
-    public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "weather")] HttpRequest req)
+    public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "post", "weather")] HttpRequest req)
     {
         try
         {
