@@ -31,3 +31,89 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Visual Studio Code
+.vscode
+
+# Visual Studio
+.vs
+
+# Rider
+.idea
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Node.js
+.env
+node_modules
+
+# Java
+*.class
+*.war
+*.ear
+/target/
+*.iml
+
+# Gradle
+.gradle/
+build/
+
+# Maven
+target/
+pom.xml.tag
+release.properties
+checkstyle-cachefile
+
+# C#
+bin/
+obj/
+*.suo
+*.user
+*.sln.docstates
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.suo
+*.suo.ide
+
+# Mono Auto Generated Files
+mono_crash.*
+
+# Windows image file caches
+Thumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Visual Studio Code directories
+.vscode/
+
+# JetBrains Rider
+.idea/
+
+# User-specific files
+*.suo
+*.user
+*.suo
+*.userosscache
+*.suo
+*.suo.ide
+
+# package directories
+node_modules
+jspm_packages
+
+# Serverless directories
+.serverless
+
+*.zip
