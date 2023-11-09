@@ -1,4 +1,6 @@
-package com.example.weatherapijava.model;
+package org.example.weatherapijava.model;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
@@ -64,12 +66,22 @@ final class Weather {
 
 final class Main {
     private double temp;
+    @JsonProperty("feels_like")
+
     private double feelsLike;
+    @JsonProperty("temp_min")
+
     private double tempMin;
+    @JsonProperty("temp_max")
+
     private double tempMax;
     private int pressure;
     private int humidity;
+    @JsonProperty("sea_level")
+
     private int seaLevel;
+    @JsonProperty("grnd_level")
+
     private int grndLevel;
 
     public double getTemp() {
@@ -169,6 +181,8 @@ final class Wind {
 }
 
 final class Rain {
+    @JsonProperty("1h")
+
     private double oneHour;
 
     public double getOneHour() {
@@ -368,5 +382,4 @@ public class WeatherData {
         this.cod = cod;
     }
 }
-
 
