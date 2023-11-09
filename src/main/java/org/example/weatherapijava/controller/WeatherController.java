@@ -24,10 +24,8 @@ public class WeatherController {
         return "Hello from application!";
     }
 
-    @RequestMapping(path = "/api/weather", method = RequestMethod.POST)
-    public Optional<WeatherData> postWeather(@RequestBody WeatherRequest weatherRequest) throws URISyntaxException {
-        return Optional.ofNullable(weatherService.getWeatherData(weatherRequest.latitude(), weatherRequest.longitude()));
+    @RequestMapping(path = "/api/weather/{lat}/{longi}")
+    public Optional<WeatherData> postWeather(@PathVariable double lat, @PathVariable double longi) throws URISyntaxException {
+        return Optional.ofNullable(weatherService.getWeatherData(lat, longi));
     }
-
-    protected static record WeatherRequest(double latitude, double longitude) { };
 }
