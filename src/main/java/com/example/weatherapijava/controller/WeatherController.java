@@ -12,7 +12,7 @@ import com.example.weatherapijava.model.WeatherData;
 import com.example.weatherapijava.service.WeatherService;
 
 @RestController
-@RequestMapping("/api/weather")
+@RequestMapping("/")
 public class WeatherController {
 
     private final WeatherService weatherService;
@@ -22,7 +22,12 @@ public class WeatherController {
         this.weatherService = weatherService;
     }
 
-    @PostMapping(value = "/current", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping("/hello")
+    public ResponseEntity<WeatherData> getHello() {
+        return ResponseEntity.ok("HELLO FROM AZURE");
+    }
+
+    @PostMapping()
     public ResponseEntity<WeatherData> getCurrentWeather(@RequestBody WeatherRequest weatherRequest) {
         return ResponseEntity.ok(weatherService.getWeatherData(weatherRequest.getLatitude(), weatherRequest.getLongitude()));
     }
