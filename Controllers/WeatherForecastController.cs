@@ -30,12 +30,12 @@ public class WeatherController : ControllerBase
         }
     }
 
-    [HttpPost]
-    public async Task<IActionResult> GetWeather([FromBody] Coordinates coordinates)
+    [HttpGet]
+    public async Task<IActionResult> GetWeather([FromQuery(Name = "lat")] double latitude, [FromQuery(Name = "long")] double longitude)
     {
         try
         {
-            var weatherData = await weatherService.GetWeatherDataAsync(coordinates.latitude, coordinates.longitude);
+            var weatherData = await weatherService.GetWeatherDataAsync(latitude, longitude);
             return Ok(weatherData);
         }
         catch (Exception ex)
@@ -45,5 +45,3 @@ public class WeatherController : ControllerBase
         }
     }
 }
-
-public record Coordinates(double latitude, double longitude);
