@@ -28,17 +28,19 @@ namespace weather_app_csharp
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            int lat = Convert.ToInt32(req.Query["lat"]);
-            int longi = Convert.ToInt32(req.Query["long"]);
-
+            string lat = req.Query["lat"].ToString();
+            string longi = req.Query["long"].ToString();
+            
             string url = $"{API_URL}?lat={lat}&lon={longi}&appid={API_KEY}&units=metric";
-
+            
+            log.LogInformation("C# HTTP trigger function making a request.");
             using HttpResponseMessage response = await client.GetAsync(url);
             response.EnsureSuccessStatusCode();
-
+            
+            log.LogInformation("C# HTTP trigger function processing a response.");
             string stringResponse = await response.Content.ReadAsStringAsync();
             var weatherData = JsonConvert.DeserializeObject<WeatherData>(stringResponse);
-
+            
             return new OkObjectResult(weatherData);
         }
     }
