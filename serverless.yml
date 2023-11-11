@@ -16,9 +16,8 @@ provider:
 functions:
   main:
     handler: handler.main
-    events:
-     - http: ANY /{proxy+}
-     - http: ANY /
+    url: true
+    timeout: 180
     environment:
       API_URL: https://api.openweathermap.org/data/2.5/weather
       API_KEY: 8d1676aa6fc9d8999047e94223b592e3
