@@ -1,8 +1,9 @@
 const weatherService = require('../services');
 
 exports.getWeather = async (req, res) => {
-    if (req.method === 'POST') {
-        const { latitude, longitude } = req.body;
+    if (req.method === 'GET') {
+        const latitude = req.query.lat;
+        const longitude  = req.query.long;
 
         const response = await weatherService.getWeatherData(latitude, longitude);
 
