@@ -1,0 +1,5 @@
+com\weatherapijava\ConventionalDefaults.class
+com\weatherapijava\functionurl\boundary\FunctionURLStack.class
+com\weatherapijava\InfrastructureBuilder.class
+com\weatherapijava\CDKApp.class
+com\weatherapijava\lambda\control\QuarkusLambda.class

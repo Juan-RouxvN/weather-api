@@ -1,0 +1,302 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "weather-api-lambda-function-url-stack": {
+        "id": "weather-api-lambda-function-url-stack",
+        "path": "weather-api-lambda-function-url-stack",
+        "children": {
+          "QuarkusLambda": {
+            "id": "QuarkusLambda",
+            "path": "weather-api-lambda-function-url-stack/QuarkusLambda",
+            "children": {
+              "weather-api-java": {
+                "id": "weather-api-java",
+                "path": "weather-api-lambda-function-url-stack/QuarkusLambda/weather-api-java",
+                "children": {
+                  "ServiceRole": {
+                    "id": "ServiceRole",
+                    "path": "weather-api-lambda-function-url-stack/QuarkusLambda/weather-api-java/ServiceRole",
+                    "children": {
+                      "ImportServiceRole": {
+                        "id": "ImportServiceRole",
+                        "path": "weather-api-lambda-function-url-stack/QuarkusLambda/weather-api-java/ServiceRole/ImportServiceRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.102.0"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "weather-api-lambda-function-url-stack/QuarkusLambda/weather-api-java/ServiceRole/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "lambda.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                                  ]
+                                ]
+                              }
+                            ],
+                            "tags": [
+                              {
+                                "key": "application",
+                                "value": "weather-api-lambda"
+                              },
+                              {
+                                "key": "environment",
+                                "value": "development"
+                              },
+                              {
+                                "key": "project",
+                                "value": "MicroProfile with Quarkus on AWS Lambda"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.102.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.102.0"
+                    }
+                  },
+                  "Code": {
+                    "id": "Code",
+                    "path": "weather-api-lambda-function-url-stack/QuarkusLambda/weather-api-java/Code",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "weather-api-lambda-function-url-stack/QuarkusLambda/weather-api-java/Code/Stage",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.102.0"
+                        }
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "weather-api-lambda-function-url-stack/QuarkusLambda/weather-api-java/Code/AssetBucket",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                          "version": "2.102.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                      "version": "2.102.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "weather-api-lambda-function-url-stack/QuarkusLambda/weather-api-java/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                      "aws:cdk:cloudformation:props": {
+                        "architectures": [
+                          "arm64"
+                        ],
+                        "code": {
+                          "s3Bucket": {
+                            "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                          },
+                          "s3Key": "3ad28b28fb88250830dcfcff9f18368cf86c9c0abad36b16510d5136ab5c5679.zip"
+                        },
+                        "environment": {
+                          "variables": {
+                            "JAVA_TOOL_OPTIONS": "-XX:+TieredCompilation -XX:TieredStopAtLevel=1"
+                          }
+                        },
+                        "functionName": "weather-api-java",
+                        "handler": "io.quarkus.amazon.lambda.runtime.QuarkusStreamHandler::handleRequest",
+                        "memorySize": 1700,
+                        "role": {
+                          "Fn::GetAtt": [
+                            "QuarkusLambdaweatherapijavaServiceRole857866D0",
+                            "Arn"
+                          ]
+                        },
+                        "runtime": "java17",
+                        "tags": [
+                          {
+                            "key": "application",
+                            "value": "weather-api-lambda"
+                          },
+                          {
+                            "key": "environment",
+                            "value": "development"
+                          },
+                          {
+                            "key": "project",
+                            "value": "MicroProfile with Quarkus on AWS Lambda"
+                          }
+                        ],
+                        "timeout": 300
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                      "version": "2.102.0"
+                    }
+                  },
+                  "FunctionUrl": {
+                    "id": "FunctionUrl",
+                    "path": "weather-api-lambda-function-url-stack/QuarkusLambda/weather-api-java/FunctionUrl",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "weather-api-lambda-function-url-stack/QuarkusLambda/weather-api-java/FunctionUrl/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::Lambda::Url",
+                          "aws:cdk:cloudformation:props": {
+                            "authType": "NONE",
+                            "targetFunctionArn": {
+                              "Fn::GetAtt": [
+                                "QuarkusLambdaweatherapijava08AE8E53",
+                                "Arn"
+                              ]
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_lambda.CfnUrl",
+                          "version": "2.102.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.FunctionUrl",
+                      "version": "2.102.0"
+                    }
+                  },
+                  "invoke-function-url": {
+                    "id": "invoke-function-url",
+                    "path": "weather-api-lambda-function-url-stack/QuarkusLambda/weather-api-java/invoke-function-url",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                      "aws:cdk:cloudformation:props": {
+                        "action": "lambda:InvokeFunctionUrl",
+                        "functionName": {
+                          "Fn::GetAtt": [
+                            "QuarkusLambdaweatherapijava08AE8E53",
+                            "Arn"
+                          ]
+                        },
+                        "functionUrlAuthType": "NONE",
+                        "principal": "*"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                      "version": "2.102.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.Function",
+                  "version": "2.102.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.3.0"
+            }
+          },
+          "FunctionURLOutput": {
+            "id": "FunctionURLOutput",
+            "path": "weather-api-lambda-function-url-stack/FunctionURLOutput",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.102.0"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "weather-api-lambda-function-url-stack/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "weather-api-lambda-function-url-stack/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.102.0"
+                }
+              },
+              "Condition": {
+                "id": "Condition",
+                "path": "weather-api-lambda-function-url-stack/CDKMetadata/Condition",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnCondition",
+                  "version": "2.102.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.3.0"
+            }
+          },
+          "BootstrapVersion": {
+            "id": "BootstrapVersion",
+            "path": "weather-api-lambda-function-url-stack/BootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.102.0"
+            }
+          },
+          "CheckBootstrapVersion": {
+            "id": "CheckBootstrapVersion",
+            "path": "weather-api-lambda-function-url-stack/CheckBootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnRule",
+              "version": "2.102.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.102.0"
+        }
+      },
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree",
+        "constructInfo": {
+          "fqn": "constructs.Construct",
+          "version": "10.3.0"
+        }
+      }
+    },
+    "constructInfo": {
+      "fqn": "aws-cdk-lib.App",
+      "version": "2.102.0"
+    }
+  }
+}

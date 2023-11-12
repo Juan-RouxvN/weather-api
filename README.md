@@ -1,82 +1,154 @@
-# weather-api-java serverless API
-The weather-api-java project, created with [`aws-serverless-java-container`](https://github.com/awslabs/aws-serverless-java-container).
+# MicroProfile with Quarkus as AWS Lambda Function deployed with Cloud Development Kit (CDK) v2 for Java
 
-The starter project defines a simple `/ping` resource that can accept `GET` requests with its tests.
+A lean starting point for building, testing and deploying Quarkus MicroProfile applications deployed as AWS Lambda behind API Gateway.
+The business logic, as well as, the Infrastructure as Code deployment are implemented with Java.
 
-The project folder also includes a `template.yml` file. You can use this [SAM](https://github.com/awslabs/serverless-application-model) file to deploy the project to AWS Lambda and Amazon API Gateway or test in local with the [SAM CLI](https://github.com/awslabs/aws-sam-cli). 
+# TL;DR
 
-## Pre-requisites
-* [AWS CLI](https://aws.amazon.com/cli/)
-* [SAM CLI](https://github.com/awslabs/aws-sam-cli)
-* [Gradle](https://gradle.org/) or [Maven](https://maven.apache.org/)
+A Quarkus MicroProfile application:
 
-## Building the project
-You can use the SAM CLI to quickly build the project
-```bash
-$ mvn archetype:generate -DartifactId=weather-api-java -DarchetypeGroupId=com.amazonaws.serverless.archetypes -DarchetypeArtifactId=aws-serverless-jersey-archetype -DarchetypeVersion=2.0.0-M2 -DgroupId=org.example -Dversion=1.0-SNAPSHOT -Dinteractive=false
-$ cd weather-api-java
-$ sam build
-Building resource 'WeatherApiJavaFunction'
-Running JavaGradleWorkflow:GradleBuild
-Running JavaGradleWorkflow:CopyArtifacts
+```java
 
-Build Succeeded
+@Path("hello")
+@ApplicationScoped
+public class GreetingResource {
 
-Built Artifacts  : .aws-sam/build
-Built Template   : .aws-sam/build/template.yaml
+    @Inject
+    Greeter greeter;
 
-Commands you can use next
-=========================
-[*] Invoke Function: sam local invoke
-[*] Deploy: sam deploy --guided
-```
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public String hello() {
+        return this.greeter.greetings();
+    }
 
-## Testing locally with the SAM CLI
-
-From the project root folder - where the `template.yml` file is located - start the API with the SAM CLI.
-
-```bash
-$ sam local start-api
-
-...
-Mounting com.amazonaws.serverless.archetypes.StreamLambdaHandler::handleRequest (java11) at http://127.0.0.1:3000/{proxy+} [OPTIONS GET HEAD POST PUT DELETE PATCH]
-...
-```
-
-Using a new shell, you can send a test ping request to your API:
-
-```bash
-$ curl -s http://127.0.0.1:3000/ping | python -m json.tool
-
-{
-    "pong": "Hello, World!"
-}
-``` 
-
-## Deploying to AWS
-To deploy the application in your AWS account, you can use the SAM CLI's guided deployment process and follow the instructions on the screen
-
-```
-$ sam deploy --guided
-```
-
-Once the deployment is completed, the SAM CLI will print out the stack's outputs, including the new application URL. You can use `curl` or a web browser to make a call to the URL
-
-```
-...
--------------------------------------------------------------------------------------------------------------
-OutputKey-Description                        OutputValue
--------------------------------------------------------------------------------------------------------------
-WeatherApiJavaApi - URL for application            https://xxxxxxxxxx.execute-api.us-west-2.amazonaws.com/Prod/pets
--------------------------------------------------------------------------------------------------------------
-```
-
-Copy the `OutputValue` into a browser or use curl to test your first request:
-
-```bash
-$ curl -s https://xxxxxxx.execute-api.us-west-2.amazonaws.com/Prod/ping | python -m json.tool
-
-{
-    "pong": "Hello, World!"
+    @POST
+    @Consumes(MediaType.TEXT_PLAIN)
+    public void hello(String message) {
+        this.greeter.greetings(message);
+    }
 }
 ```
+...with an additional dependency / [extension](https://quarkus.io/guides/amazon-lambda-http) for AWS REST APIs Gateway:
+
+```xml
+<dependency>
+    <groupId>io.quarkus</groupId>
+    <artifactId>quarkus-amazon-lambda-rest</artifactId>
+</dependency>
+```
+
+or HTTP APIs Gateway (default configuration):
+
+```xml
+<dependency>
+    <groupId>io.quarkus</groupId>
+    <artifactId>quarkus-amazon-lambda-http</artifactId>
+</dependency>
+```
+
+...deployed with AWS Cloud Development Kit:
+
+```java
+
+Function createFunction(String functionName,String functionHandler, 
+    Map<String,String> configuration, int memory, int maximumConcurrentExecution, int timeout) {
+
+        return Function.Builder.create(this, functionName)
+                .runtime(Runtime.JAVA_11)
+                .code(Code.fromAsset("../lambda/target/function.zip"))
+                .handler(functionHandler)
+                .memorySize(memory)
+                .functionName(functionName)
+                .environment(configuration)
+                .timeout(Duration.seconds(timeout))
+                .reservedConcurrentExecutions(maximumConcurrentExecution)
+                .build();
+    }
+```
+You choose between HTTP APIs gateway and REST APIs gateway with the `httpAPIGatewayIntegration` variable:
+
+``` java
+public class CDKApp {
+    public static void main(final String[] args) {
+
+            var app = new App();
+            var appName = "quarkus-apigateway-lambda-cdk";
+            Tags.of(app).add("project", "MicroProfile with Quarkus on AWS Lambda");
+            Tags.of(app).add("environment","development");
+            Tags.of(app).add("application", appName);
+
+            var httpAPIGatewayIntegration = true;
+            new CDKStack(app, appName, true);
+            app.synth();
+        }
+    }
+}
+```
+
+## Prerequisites
+
+## Java
+
+1. Java / openJDK is installed
+2. [Maven](https://maven.apache.org/) is installed
+
+## AWS 
+
+Same installation as [aws-cdk-plain](https://github.com/AdamBien/aws-cdk-plain):
+
+0. For max convenience use the [`default` profile](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html). A profile named `default` doesn't have to be specificed with the `--profile` flag or configured in CDK applications.
+1. Install [AWS CDK CLI](https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html)
+2. [`cdk boostrap --profile YOUR_AWS_PROFILE`](https://docs.aws.amazon.com/cdk/latest/guide/bootstrapping.html)
+
+This template ships with AWS HTTP APIs Gateway. REST APIs Gateway is also supported. You can switch between both by using the corresponding extension (see [Choosing between HTTP APIs and REST APIs](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-vs-rest.html). 
+
+Private APIs are only supported by [REST API Gateway](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-private-apis.html).
+
+You can also build AWS Lambda `function.zip` and executable Quarkus JAR by extracting the extension into a Maven profile. Checkout: [https://adambien.blog/roller/abien/entry/hybrid_microprofile_deployments_with_quarkus](https://adambien.blog/roller/abien/entry/hybrid_microprofile_deployments_with_quarkus).
+
+See you at: [airhacks.live](https://airhacks.live)
+
+# in action
+
+## full build
+
+Build the Quarkus project `lambda` and deploy it with `cdk` as AWS Lambda:
+
+```
+cd lambda
+./buildAndDeployDontAsk.sh
+```
+
+## continuous and accelerated deployment
+
+To continuously deploy the AWS Lambda at any changes, perform: 
+
+```
+cd cdk
+cdk watch
+```
+
+Now on every: `mvn package` in `lambda` directory / project the JAX-RS application is re-deployed automatically.
+
+## local deployment
+
+You can run the `lambda` project as regular Quarkus application with:
+
+`mvn compile quarkus:dev`
+
+The application is available under: `http://localhost:8080/hello`
+
+## Deploying MicroProfile / Quarkus Application as AWS Lambda with Java AWS CDK
+
+[![Deploying MicroProfile / Quarkus Application as AWS Lambda with Java AWS CDK](https://i.ytimg.com/vi/NA0WjIgp4CQ/mqdefault.jpg)](https://www.youtube.com/embed/NA0WjIgp4CQ?rel=0)
+
+
+## Accelarating deployments with CDK v2 Watch
+
+
+Using `cdk watch` for faster deployments
+
+[![Accelerating Deployment with CDK v2 Watch](https://i.ytimg.com/vi/SK7ic9wTYqU/mqdefault.jpg)](https://www.youtube.com/embed/SK7ic9wTYqU?rel=0)
+
+See you at: [airhacks.live](https://airhacks.live)

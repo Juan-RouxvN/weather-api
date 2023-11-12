@@ -1,0 +1,125 @@
+{
+  "version": "34.0.0",
+  "artifacts": {
+    "weather-api-lambda-function-url-stack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "weather-api-lambda-function-url-stack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "weather-api-lambda-function-url-stack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "weather-api-lambda-function-url-stack.template.json",
+        "terminationProtection": false,
+        "tags": {
+          "application": "weather-api-lambda",
+          "environment": "development",
+          "project": "MicroProfile with Quarkus on AWS Lambda"
+        },
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/fe00d56db0fcab8aeed808fbba7b99f54e49ec4962049b09fa55f618815ee7d5.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "weather-api-lambda-function-url-stack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "weather-api-lambda-function-url-stack.assets"
+      ],
+      "metadata": {
+        "/weather-api-lambda-function-url-stack": [
+          {
+            "type": "aws:cdk:stack-tags",
+            "data": [
+              {
+                "Key": "application",
+                "Value": "weather-api-lambda"
+              },
+              {
+                "Key": "environment",
+                "Value": "development"
+              },
+              {
+                "Key": "project",
+                "Value": "MicroProfile with Quarkus on AWS Lambda"
+              }
+            ]
+          }
+        ],
+        "/weather-api-lambda-function-url-stack/QuarkusLambda/weather-api-java/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "QuarkusLambdaweatherapijavaServiceRole857866D0"
+          }
+        ],
+        "/weather-api-lambda-function-url-stack/QuarkusLambda/weather-api-java/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "QuarkusLambdaweatherapijava08AE8E53"
+          }
+        ],
+        "/weather-api-lambda-function-url-stack/QuarkusLambda/weather-api-java/FunctionUrl/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "QuarkusLambdaweatherapijavaFunctionUrl265E63EB"
+          }
+        ],
+        "/weather-api-lambda-function-url-stack/QuarkusLambda/weather-api-java/invoke-function-url": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "QuarkusLambdaweatherapijavainvokefunctionurlA0B518BD"
+          }
+        ],
+        "/weather-api-lambda-function-url-stack/FunctionURLOutput": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FunctionURLOutput"
+          }
+        ],
+        "/weather-api-lambda-function-url-stack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/weather-api-lambda-function-url-stack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/weather-api-lambda-function-url-stack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/weather-api-lambda-function-url-stack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "weather-api-lambda-function-url-stack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

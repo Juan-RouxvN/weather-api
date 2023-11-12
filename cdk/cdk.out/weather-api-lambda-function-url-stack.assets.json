@@ -1,0 +1,32 @@
+{
+  "version": "34.0.0",
+  "files": {
+    "3ad28b28fb88250830dcfcff9f18368cf86c9c0abad36b16510d5136ab5c5679": {
+      "source": {
+        "path": "asset.3ad28b28fb88250830dcfcff9f18368cf86c9c0abad36b16510d5136ab5c5679.zip",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "3ad28b28fb88250830dcfcff9f18368cf86c9c0abad36b16510d5136ab5c5679.zip",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    },
+    "fe00d56db0fcab8aeed808fbba7b99f54e49ec4962049b09fa55f618815ee7d5": {
+      "source": {
+        "path": "weather-api-lambda-function-url-stack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "fe00d56db0fcab8aeed808fbba7b99f54e49ec4962049b09fa55f618815ee7d5.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}
