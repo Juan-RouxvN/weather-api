@@ -16,14 +16,12 @@ public class Function : IHttpFunction
         try
         {
             HttpRequest request = context.Request;
-            if (request.Method == HttpMethods.Post)
+            if (request.Method == HttpMethods.Get)
             {
-                using StreamReader reader = new StreamReader(request.Body);
-                string requestBody = await reader.ReadToEndAsync();
-
-                var coordinates = JsonSerializer.Deserialize<Coordinates>(requestBody);
+                string latitude = request.QueryString["lat"];
+                string longitude = request.QueryString["long"];
                 var weatherService = new WeatherService(new HttpClient());
-                var weatherData = await weatherService.GetWeatherDataAsync(coordinates.latitude, coordinates.longitude);
+                var weatherData = await weatherService.GetWeatherDataAsync(latitude, longitude);
                 await context.Response.WriteAsJsonAsync(weatherData);
             }
              await context.Response.WriteAsync("Unsupported Method used.");
@@ -34,7 +32,5 @@ public class Function : IHttpFunction
             await context.Response.WriteAsync("Error fetching weather data: " + ex.Message);
         }
     }
-
-    public record Coordinates(double latitude, double longitude);
 }
 
