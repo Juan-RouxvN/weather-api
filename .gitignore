@@ -81,3 +81,7 @@ jspm_packages
 
 # Serverless directories
 .serverless
+
+*.jar
+
+lambda/target
