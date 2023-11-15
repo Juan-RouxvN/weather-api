@@ -1,7 +1,7 @@
 package com.weatherapijava.googlecloudfunctions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.weatherapijava.WeatherData;
+import com.weatherapijava.googlecloudfunctions.WeatherData;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
@@ -19,7 +19,7 @@ public class WeatherService{
     private final String API_URL = System.getenv("API_URL");
     private final String API_KEY = System.getenv("API_KEY");
 
-    public WeatherData getWeatherData(double latitude, double longitude) throws URISyntaxException {
+    public WeatherData getWeatherData(String latitude, String longitude) throws URISyntaxException {
         String apiUrl = String.format("%s?lat=%s&lon=%s&appid=%s", API_URL, latitude, longitude, API_KEY);
         WeatherData responseBody = null;
 

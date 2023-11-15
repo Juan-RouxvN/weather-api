@@ -23,7 +23,7 @@ public class WeatherResource {
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public Response postWeather(@QueryParam("lat") double latitude, @QueryParam("long") double longitude) throws URISyntaxException {
+    public Response postWeather(@QueryParam("lat") String latitude, @QueryParam("long") String longitude) throws URISyntaxException {
         return Response.ok(weatherService.getWeatherData(latitude, longitude)).build();
     }
 }
