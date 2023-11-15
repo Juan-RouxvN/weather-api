@@ -15,14 +15,14 @@ public class WeatherService
         _httpClient = httpClient;
     }
 
-    public async Task<WeatherData?> GetWeatherDataAsync(double latitude, double longitude)
+    public async Task<WeatherData?> GetWeatherDataAsync(string latitude, string longitude)
     {
         Console.WriteLine(API_URL + "\n" + API_KEY + "\n" + latitude + "\n" + longitude);
         string apiUrl = $"{API_URL}?lat={latitude}&lon={longitude}&appid={API_KEY}&units=metric";
         HttpResponseMessage response = await _httpClient.GetAsync(apiUrl);
 
         string jsonResponse = await response.Content.ReadAsStringAsync();
-        var weatherData = JsonConvert .DeserializeObject<WeatherData>(jsonResponse);
+        var weatherData = JsonConvert.DeserializeObject<WeatherData>(jsonResponse);
         return weatherData ?? null;
     }
 }

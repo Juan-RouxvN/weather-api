@@ -17,24 +17,11 @@ public class WeatherController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> GetWeather([FromQuery(Name = "lat")] string latitude, [FromQuery(Name = "long")] string longitude)
     {
         try
         {
-            return Ok("Hello from online");
-        }
-        catch (Exception ex)
-        {
-            // Log the error
-            return StatusCode(500, "Error fetching weather data");
-        }
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> GetWeather([FromQuery(Name = "lat")] double latitude, [FromQuery(Name = "long")] double longitude)
-    {
-        try
-        {
+            Console.WriteLine(latitude + "\n" + longitude);
             var weatherData = await weatherService.GetWeatherDataAsync(latitude, longitude);
             return Ok(weatherData);
         }
