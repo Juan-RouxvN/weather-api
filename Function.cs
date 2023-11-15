@@ -18,8 +18,8 @@ public class Function : IHttpFunction
             HttpRequest request = context.Request;
             if (request.Method == HttpMethods.Get)
             {
-                string latitude = request.QueryString["lat"];
-                string longitude = request.QueryString["long"];
+                string latitude = request.Query["lat"];
+                string longitude = request.Query["long"];
                 var weatherService = new WeatherService(new HttpClient());
                 var weatherData = await weatherService.GetWeatherDataAsync(latitude, longitude);
                 await context.Response.WriteAsJsonAsync(weatherData);
