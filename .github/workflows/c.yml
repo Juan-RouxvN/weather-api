@@ -3,7 +3,7 @@
 
 name: Weather-API-Csharp - Deployment
 
-on: |+
+on:
   push:
     branches:
       - C#-Azure
