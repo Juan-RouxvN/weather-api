@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Weather-API-Java Deploy
+name: Build and deploy Java project to Azure Function App - Weather-API-JAVA
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_FUNCTIONAPP_NAME: weather-api-java # set this to your function app name on Azure
+  AZURE_FUNCTIONAPP_NAME: Weather-API-JAVA # set this to your function app name on Azure
   PACKAGE_DIRECTORY: '.' # set this to the directory which contains pom.xml file
   JAVA_VERSION: '17' # set this to the java version to use
 
@@ -36,8 +36,8 @@ jobs:
         uses: Azure/functions-action@v1
         id: fa
         with:
-          app-name: 'weather-api-java'
+          app-name: 'Weather-API-JAVA'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E249FE91FB5D43FFBFB810D6C166F613 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_6E367B45909D4036BE96D0C97E2BAB11 }}
           package: '${{ env.PACKAGE_DIRECTORY }}'
           respect-pom-xml: true
